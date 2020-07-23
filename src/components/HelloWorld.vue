@@ -11,24 +11,24 @@
 
           <v-row no-gutters> <!-- !!!   1. mnogo veliki vetrikalni gutter kad se ukloni 'no-gutters' --->
             <v-col cols="12" md="6">
-              <v-text-field label="Name" outlined autofocus="true"></v-text-field>
+              <v-text-field label="Name" outlined autofocus class="mr-md-2"></v-text-field>
             </v-col>
 
             <v-col cols="12" md="6">
-              <v-text-field label="Surname" outlined></v-text-field>
+              <v-text-field label="Surname" outlined class="ml-md-2"></v-text-field>
             </v-col>
           </v-row>
 
           <v-row no-gutters>  <!-- !!!    1. mnogo veliki verticalni gutter kad se ukloni 'no-gutters' --->
 
             <v-col cols="12" md="6">
-              <v-text-field label="Broj lične karte" outlined></v-text-field>
+              <v-text-field label="Broj lične karte" outlined class="mr-md-2"></v-text-field>
             </v-col> 
 
             <!-- 2. Ovde izmedju nastaje neki razmak koji ne znam kako da uklonim. Mozda sam resio sa ovim gore: !!!      ???? -->
 
             <v-col cols="12" md="6"> 
-              <v-text-field label="Kontakt Telefon" outlined></v-text-field>
+              <v-text-field label="Kontakt Telefon" outlined class="ml-md-2"></v-text-field>
             </v-col>
 
           </v-row>
@@ -51,10 +51,10 @@
 
           <h2>Radni status</h2>
           <div class="mb-5 d-flex flex-wrap justify-lg-center justify-md-flex-start justify-sm-flex-start"> <!-- 3. jel ovo ok resenje? Mozda neki media query da dodam klasu drugu neku, tj da sirina svih ovih bude 100% (na 714px) -->
-              <v-checkbox label="Student" class="mr-3" v-model="radniStatus.student" @click="nezaposlenUnchecked"></v-checkbox>
-              <v-checkbox label="nezaposlen" class="mr-3" v-model="radniStatus.nezaposlen" @click="nezaposlenChecked"></v-checkbox>
-              <v-checkbox label="stalno zaposlen" class="mr-3" v-model="radniStatus.stalnoZaposlen" @click="nezaposlenUnchecked"></v-checkbox>
-              <v-checkbox label="privremeno zaposlen" class="mr-3" v-model="radniStatus.privremenoZaposlen" @click="nezaposlenUnchecked"></v-checkbox>
+              <v-checkbox label="Student" class="mr-3" v-model="radniStatus.student" @change="nezaposlenUnchecked"></v-checkbox>
+              <v-checkbox label="nezaposlen" class="mr-3" v-model="radniStatus.nezaposlen" @change="nezaposlenChecked"></v-checkbox>
+              <v-checkbox label="stalno zaposlen" class="mr-3" v-model="radniStatus.stalnoZaposlen" @change="nezaposlenUnchecked"></v-checkbox>
+              <v-checkbox label="privremeno zaposlen" class="mr-3" v-model="radniStatus.privremenoZaposlen" @change="nezaposlenUnchecked"></v-checkbox>
           </div>
 
           <div>
@@ -128,10 +128,6 @@
           this.radniStatus.nezaposlen = false;
         }
       }
-    },
-    mounted(){
-      this.nezaposlenChecked
-      //4. jedini problem: ne radi click na checkbox
     }
   }
 </script>
@@ -140,8 +136,10 @@ h1 {
   text-align:center;
 }
 
-.v-slider__thumb-container .primary--text {
-  display:none; /*uopste ne hvata klasu */
+.v-slider--horizontal {
+  display:none;
+  /* Ovako radi bato */
+      /*display:none!important;*/ 
 }
 
 /* @media screen { width: 7112px
