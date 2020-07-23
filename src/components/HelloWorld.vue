@@ -1,58 +1,150 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+  <v-container>
+    <v-row>
+      <v-col>
+        <h1>Priloži žalbu</h1>
+      </v-col>
+    </v-row>
+    <v-row justify="center">
+      <v-col cols="6" align="center">
+        <v-form>
+
+          <v-row no-gutters> <!-- !!!   1. mnogo veliki vetrikalni gutter kad se ukloni 'no-gutters' --->
+            <v-col cols="12" md="6">
+              <v-text-field label="Name" outlined autofocus="true"></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="6">
+              <v-text-field label="Surname" outlined></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row no-gutters>  <!-- !!!    1. mnogo veliki verticalni gutter kad se ukloni 'no-gutters' --->
+
+            <v-col cols="12" md="6">
+              <v-text-field label="Broj lične karte" outlined></v-text-field>
+            </v-col> 
+
+            <!-- 2. Ovde izmedju nastaje neki razmak koji ne znam kako da uklonim. Mozda sam resio sa ovim gore: !!!      ???? -->
+
+            <v-col cols="12" md="6"> 
+              <v-text-field label="Kontakt Telefon" outlined></v-text-field>
+            </v-col>
+
+          </v-row>
+          
+          <v-radio-group class="mb-5">
+            <h2>Pol</h2>
+            <v-radio label="muški"></v-radio>
+            <v-radio label="ženski"></v-radio>
+            <v-radio label="Susdržan"></v-radio>
+          </v-radio-group>
+
+          <v-select class="mb-5" :items="opstine" label="Opština" outlined>
+          </v-select>
+          
+          <h2>Da li ste osigurani?</h2>
+          <v-radio-group class="mb-5"> <!-- row -->
+            <v-radio label="Da"></v-radio>
+            <v-radio label="Ne"></v-radio>
+          </v-radio-group>
+
+          <h2>Radni status</h2>
+          <div class="mb-5 d-flex flex-wrap justify-lg-center justify-md-flex-start justify-sm-flex-start"> <!-- 3. jel ovo ok resenje? Mozda neki media query da dodam klasu drugu neku, tj da sirina svih ovih bude 100% (na 714px) -->
+              <v-checkbox label="Student" class="mr-3" v-model="radniStatus.student" @click="nezaposlenUnchecked"></v-checkbox>
+              <v-checkbox label="nezaposlen" class="mr-3" v-model="radniStatus.nezaposlen" @click="nezaposlenChecked"></v-checkbox>
+              <v-checkbox label="stalno zaposlen" class="mr-3" v-model="radniStatus.stalnoZaposlen" @click="nezaposlenUnchecked"></v-checkbox>
+              <v-checkbox label="privremeno zaposlen" class="mr-3" v-model="radniStatus.privremenoZaposlen" @click="nezaposlenUnchecked"></v-checkbox>
+          </div>
+
+          <div>
+            <p>{{radniStatus.student}}</p>
+            <p>{{radniStatus.nezaposlen}}</p>
+            <p>{{radniStatus.stalnoZaposlen}}</p>
+            <p>{{radniStatus.privremenoZaposlen}}</p>
+          </div>
+
+          <h2>Koliko ste nezadovoljni?</h2>
+          <v-row class="mb-5">
+            <v-col cols="9" md="10">
+              <div>
+                <v-slider value="10" v-model="sliderValue"></v-slider>
+              </div>
+            </v-col>
+            <v-col cols="3" md="2"> 
+              <div>
+                <h4>{{sliderValue}} %</h4>
+              </div>
+            </v-col>
+          </v-row>
+
+          <v-textarea outlined label="Vaša poruka"></v-textarea>
+          
+          <v-btn outlined color="primary">Submit</v-btn>
+
+        </v-form>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
-export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
-  }
-}
-</script>
+  export default {
+    name: 'HelloWorld',
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
+    data: function(){
+      return {
+        opstine: [
+          'Zvezdara',
+          'Stari Grad',
+          'Zemun',
+          'Vračar'
+        ],
+        sliderValue: 10,
+        radniStatus:{
+          student: false,
+          nezaposlen:false,
+          stalnoZaposlen:false,
+          privremenoZaposlen:false
+        }
+      }
+    },
+    methods:{
+      //kad se klikne na "nezaposlen"
+      nezaposlenChecked: function(){ //funkcija koja nakon validiranje potvrdi celu pricu
+        if(this.radniStatus.nezaposlen == true){
+          this.radniStatus.nezaposlen = true;
+          this.radniStatus.student = false;
+          this.radniStatus.stalnoZaposlen = false;
+          this.radniStatus.privremenoZaposlen = false;
+        } else {
+          this.radniStatus.nezaposlen = false;
+        }
+      },
+
+      //kad se klikne bilo gde a da nije "nezaposlen"
+      nezaposlenUnchecked: function() {
+        if(this.radniStatus.nezaposlen == true){
+          this.radniStatus.nezaposlen = false;
+        }
+      }
+    },
+    mounted(){
+      this.nezaposlenChecked
+      //4. jedini problem: ne radi click na checkbox
+    }
+  }
+</script>
+<style>
+h1 {
+  text-align:center;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+
+.v-slider__thumb-container .primary--text {
+  display:none; /*uopste ne hvata klasu */
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
+/* @media screen { width: 7112px
+  
+} */
 </style>
